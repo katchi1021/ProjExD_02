@@ -42,14 +42,14 @@ def main():
         # 移動
         bomb.move_ip(vx,vy)
         kk_rect.move_ip(kk_move)
-        # # 爆弾の画面外判定
-        # vx *= 1 if out_display(bomb)[0] else -1
-        # vy *= 1 if out_display(bomb)[1] else -1
-        # # こうかとんの画面外判定
-        # kk_out = out_display(kk_rect)
-        # kk_move[0] *= 1 if out_display(kk_rect)[0] else -1
-        # kk_move[1] *= 1 if out_display(kk_rect)[1] else -1
-        # kk_rect.move_ip(kk_move)
+        # 爆弾の画面外判定
+        vx *= 1 if out_display(bomb)[0] else -1
+        vy *= 1 if out_display(bomb)[1] else -1
+        # こうかとんの画面外判定
+        kk_out = out_display(kk_rect)
+        kk_move[0] *= 1 if out_display(kk_rect)[0] else -1
+        kk_move[1] *= 1 if out_display(kk_rect)[1] else -1
+        kk_rect.move_ip(kk_move)
         
         tmr += 1
         clock.tick(fps)

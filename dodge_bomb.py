@@ -13,7 +13,7 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
-    kk_img_xrev = pg.transform.flip(kk_img, True, False)
+    kk_img_xrev = pg.transform.flip(kk_img, True, False) # こうかとん画像のx反転
     kk_imgs = {
         (0, -5): pg.transform.rotozoom(kk_img_xrev, 90, 1.0),
         (5, -5): pg.transform.rotozoom(kk_img_xrev, 40, 1.0),
@@ -37,6 +37,7 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     bom_cnt = 0
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -58,18 +59,17 @@ def main():
         # ボムの画像変更
         if tmr % 100 == 0:
             bom_cnt += 1
-            # if bom_cnt  >= 100:
-            #     return
+            if bom_cnt  >= 100:
+                return
             # print((bomb.x*i/80, bomb.y*+i/80))
             # bp = bomb.top
             # bomb_sfc = bombs[bom_cnt]
             # bomb = bomb_sfc.get_rect()
             # bomb.center = bp
-            # per = (1+bom_cnt/10)
-            # bomb_sfc = pg.Surface((bomb_sfc.get_width()+20*per, bomb_sfc.get_height()+20*per))
+            per = (1+bom_cnt/10)
+            bomb_sfc = pg.Surface((bomb_sfc.get_width()*per, bomb_sfc.get_height()+per))
             # bomb_sfc.set_colorkey((0, 0, 0))
-            # pg.draw.circle(bomb_sfc, (255,0,0), (20*per,20*per), 10*per)
-            pass
+            pg.draw.circle(bomb_sfc, (255,0,0), (20*per,20*per), 10*per)
             
         # 配置
         screen.blit(bg_img, [0, 0])
@@ -89,7 +89,6 @@ def main():
         kk_rect.move_ip(kk_move)
         
         tmr += 1
-        
         clock.tick(fps)
 
 def out_display(obj_rect):

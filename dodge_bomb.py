@@ -41,7 +41,7 @@ def main():
         pg.display.update()
         # 移動
         bomb.move_ip(vx,vy)
-        # kk_rect.move_ip(kk_move)
+        kk_rect.move_ip(kk_move)
         # # 爆弾の画面外判定
         # vx *= 1 if out_display(bomb)[0] else -1
         # vy *= 1 if out_display(bomb)[1] else -1

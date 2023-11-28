@@ -13,6 +13,17 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img_xrev = pg.transform.flip(kk_img, True, False)
+    kk_imgs = {
+        (0, -5): pg.transform.rotozoom(kk_img_xrev, 90, 1.0),
+        (5, -5): pg.transform.rotozoom(kk_img_xrev, 40, 1.0),
+        (5, 0): kk_img_xrev,
+        (5, 5): pg.transform.rotozoom(kk_img_xrev, -45, 1.0),
+        (0, 5): pg.transform.rotozoom(kk_img_xrev, -90, 1.0),
+        (-5, 5): pg.transform.rotozoom(kk_img, 45, 1.0),
+        (-5, 0): kk_img,
+        (-5, -5): pg.transform.rotozoom(kk_img, -45, 1.0)
+    }
     kk_rect = kk_img.get_rect()
     bomb_sfc = pg.Surface((40, 40))
     bomb_sfc.set_colorkey((0,0,0))
@@ -30,10 +41,13 @@ def main():
         # こうかとんの移動量計算
         kk_move = [0, 0]
         key_lst = pg.key.get_pressed()
-        if key_lst[pg.K_UP]: kk_move[1] -= 5
-        if key_lst[pg.K_DOWN]: kk_move[1] += 5
-        if key_lst[pg.K_RIGHT]: kk_move[0] += 5
-        if key_lst[pg.K_LEFT]: kk_move[0] -= 5
+        if key_lst[pg.K_w]: kk_move[1] -= 5
+        if key_lst[pg.K_s]: kk_move[1] += 5
+        if key_lst[pg.K_d]: kk_move[0] += 5
+        if key_lst[pg.K_a]: kk_move[0] -= 5
+        print(kk_move)
+        if kk_move != [0, 0]:
+            kk_img = kk_imgs[tuple(kk_move)]
         # 配置
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rect)
@@ -63,10 +77,8 @@ def out_display(obj_rect):
     """
     out_x = out_y = True
     if obj_rect.top < 0 or obj_rect.bottom > 900:
-        print(obj_rect.bottom)
         out_y = False
     if obj_rect.left < 0 or obj_rect.right > 1600:
-        print(obj_rect.left)
         out_x = False
     return (out_x, out_y)
 

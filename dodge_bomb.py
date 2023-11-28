@@ -24,32 +24,33 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-
+        # 爆弾とこうかとんが衝突したら終了
+        if kk_rect.colliderect(bomb):
+            return
+        # こうかとんの移動量計算
         kk_move = [0, 0]
         key_lst = pg.key.get_pressed()
         if key_lst[pg.K_UP]: kk_move[1] -= 5
         if key_lst[pg.K_DOWN]: kk_move[1] += 5
         if key_lst[pg.K_RIGHT]: kk_move[0] += 5
         if key_lst[pg.K_LEFT]: kk_move[0] -= 5
-
-        if kk_rect.colliderect(bomb):
-            return
-
+        # 配置
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rect)
         screen.blit(bomb_sfc, bomb)
         pg.display.update()
+        # 移動
         bomb.move_ip(vx,vy)
-        kk_rect.move_ip(kk_move)
-        # 爆弾の画面外判定
-        vx *= 1 if out_display(bomb)[0] else -1
-        vy *= 1 if out_display(bomb)[1] else -1
-        # こうかとんの画面外判定
-        kk_out = out_display(kk_rect)
-        kk_move[0] *= 1 if out_display(kk_rect)[0] else -1
-        kk_move[1] *= 1 if out_display(kk_rect)[1] else -1
-        kk_rect.move_ip(kk_move)
-
+        # kk_rect.move_ip(kk_move)
+        # # 爆弾の画面外判定
+        # vx *= 1 if out_display(bomb)[0] else -1
+        # vy *= 1 if out_display(bomb)[1] else -1
+        # # こうかとんの画面外判定
+        # kk_out = out_display(kk_rect)
+        # kk_move[0] *= 1 if out_display(kk_rect)[0] else -1
+        # kk_move[1] *= 1 if out_display(kk_rect)[1] else -1
+        # kk_rect.move_ip(kk_move)
+        
         tmr += 1
         clock.tick(fps)
 

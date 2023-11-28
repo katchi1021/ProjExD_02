@@ -42,8 +42,11 @@ def main():
         pg.display.update()
         bomb.move_ip((vx,vy))
         kk_rect.move_ip(kk_move)
-        vx *= -1 if out_display(bomb)[0] else 1
-        vy *= -1 if out_display(bomb)[1] else 1
+        bom_out = out_display(bomb)
+        if bom_out[0] or bom_out[1]:
+            vx *= -1 if bom_out[0] else 1
+            vy *= -1 if bom_out[1] else 1
+            bomb.move_ip((vx,vy))
         tmr += 1
         clock.tick(fps)
 

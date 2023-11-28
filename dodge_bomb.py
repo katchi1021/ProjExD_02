@@ -35,27 +35,38 @@ def main():
         if kk_rect.colliderect(bomb):
             return
 
-
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rect)
         screen.blit(bomb_sfc, bomb)
         pg.display.update()
         bomb.move_ip((vx,vy))
         kk_rect.move_ip(kk_move)
-        bom_out = out_display(bomb)
-        if bom_out[0] or bom_out[1]:
-            vx *= -1 if bom_out[0] else 1
-            vy *= -1 if bom_out[1] else 1
-            bomb.move_ip((vx,vy))
+        if out_display(bomb)[0] or out_display(bomb)[1]:
+            pass
+        else:
+            if out_display(bomb)[0] == False:
+                vx *= -1
+            if out_display(bomb)[1] == False:
+                vy *= -1
+            bomb.move_ip(vx, vy)
+            
+
         tmr += 1
         clock.tick(fps)
 
 def out_display(obj_rect):
-    out_x = out_y = False
-    if obj_rect.top <= 0 or obj_rect.bottom >= 900:
-        out_x = True
-    if obj_rect.left <= 0 or obj_rect.right >= 1600:
-        out_y = True
+    """
+    画面内判定をする関数
+    引数:こうかとんRect or 爆弾Rect
+    戻り値：横方向・縦方向の真理値タプル
+    """
+    out_x = out_y = True
+    if obj_rect.top < 0 or obj_rect.bottom > 900:
+        print(obj_rect.bottom)
+        out_x = False
+    if obj_rect.left < 0 or obj_rect.right > 1600:
+        print(obj_rect.left)
+        out_y = False
     return (out_x, out_y)
 
 if __name__ == "__main__":

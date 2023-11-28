@@ -25,8 +25,8 @@ def main():
             if event.type == pg.QUIT: 
                 return
         # 爆弾とこうかとんが衝突したら終了
-        if kk_rect.colliderect(bomb):
-            return
+        # if kk_rect.colliderect(bomb):
+        #     return
         # こうかとんの移動量計算
         kk_move = [0, 0]
         key_lst = pg.key.get_pressed()

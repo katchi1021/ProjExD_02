@@ -25,19 +25,27 @@ def main():
         (-5, -5): pg.transform.rotozoom(kk_img, -45, 1.0)
     }
     kk_rect = kk_img.get_rect()
-    bomb_sfc = pg.Surface((40, 40))
-    bomb_sfc.set_colorkey((0,0,0))
-    bomb = pg.draw.circle(bomb_sfc, (255,0,0), (20,20), 10)
+    bombs = list()
+    for i in range(100):
+        bomb_sfc = pg.Surface((40*(1+i/80), 40*(1+i/80)))
+        pg.draw.circle(bomb_sfc, (255,0,0), (20*(1+i/80),20*(1+i/80)), 10*(1+i/80))
+        bomb_sfc.set_colorkey((0, 0, 0))
+        bombs.append(bomb_sfc)
+    bomb_sfc = bombs[0]
+    bomb = bomb_sfc.get_rect()
     bomb.center = (randint(0,1600), randint(0,800))
     clock = pg.time.Clock()
     tmr = 0
+    bom_cnt = 0
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+            if event.type == pg.K_SPACE:
+                fps = 50 if fps == 0 else 0
         # 爆弾とこうかとんが衝突したら終了
-        if kk_rect.colliderect(bomb):
-            return
+        # if kk_rect.colliderect():
+        #     return
         # こうかとんの移動量計算
         kk_move = [0, 0]
         key_lst = pg.key.get_pressed()
@@ -45,9 +53,24 @@ def main():
         if key_lst[pg.K_s]: kk_move[1] += 5
         if key_lst[pg.K_d]: kk_move[0] += 5
         if key_lst[pg.K_a]: kk_move[0] -= 5
-        print(kk_move)
         if kk_move != [0, 0]:
             kk_img = kk_imgs[tuple(kk_move)]
+        # ボムの画像変更
+        if tmr % 100 == 0:
+            bom_cnt += 1
+            # if bom_cnt  >= 100:
+            #     return
+            # print((bomb.x*i/80, bomb.y*+i/80))
+            # bp = bomb.top
+            # bomb_sfc = bombs[bom_cnt]
+            # bomb = bomb_sfc.get_rect()
+            # bomb.center = bp
+            # per = (1+bom_cnt/10)
+            # bomb_sfc = pg.Surface((bomb_sfc.get_width()+20*per, bomb_sfc.get_height()+20*per))
+            # bomb_sfc.set_colorkey((0, 0, 0))
+            # pg.draw.circle(bomb_sfc, (255,0,0), (20*per,20*per), 10*per)
+            pass
+            
         # 配置
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rect)
@@ -66,6 +89,7 @@ def main():
         kk_rect.move_ip(kk_move)
         
         tmr += 1
+        
         clock.tick(fps)
 
 def out_display(obj_rect):

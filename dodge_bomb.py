@@ -33,7 +33,7 @@ def main():
         bombs.append(bomb_sfc)
     bomb_sfc = bombs[0]
     bomb = bomb_sfc.get_rect()
-    bomb.center = (randint(0,1600), randint(0,800))
+    bomb.center = (randint(200,1400), randint(200,600))
     clock = pg.time.Clock()
     tmr = 0
     bom_cnt = 0
@@ -57,20 +57,19 @@ def main():
         if kk_move != [0, 0]:
             kk_img = kk_imgs[tuple(kk_move)]
         # ボムの画像変更
-        if tmr % 100 == 0:
+        if tmr % 5 == 0:
             bom_cnt += 1
-            if bom_cnt  >= 100:
-                return
-            # print((bomb.x*i/80, bomb.y*+i/80))
-            # bp = bomb.top
-            # bomb_sfc = bombs[bom_cnt]
-            # bomb = bomb_sfc.get_rect()
-            # bomb.center = bp
-            per = (1+bom_cnt/10)
-            bomb_sfc = pg.Surface((bomb_sfc.get_width()*per, bomb_sfc.get_height()+per))
-            # bomb_sfc.set_colorkey((0, 0, 0))
-            pg.draw.circle(bomb_sfc, (255,0,0), (20*per,20*per), 10*per)
+            per = (1+bom_cnt/50)
+            bp = bomb.center
+            bomb = bomb_sfc.get_rect()
+            bomb.center = bp
+            bomb_sfc = pg.Surface((40+20*per, 40+20*per))
+            bomb_sfc.set_colorkey((0, 0, 0))
+            pg.draw.circle(bomb_sfc, (255,0,0), bomb_sfc.get_rect().center, 10*per)
+            vx *= 1.01
+            vy *= 1.01
             
+
         # 配置
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rect)
